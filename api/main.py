@@ -2,6 +2,10 @@ from fastapi import FastAPI
 from app.schemas import WordResponse
 from fastapi import HTTPException
 from app.routers import words
+from app.database import engine, Base
+from fastapi.middleware.cors import CORSMiddleware
+
+Base.metadata.create_all(bind=engine)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -9,6 +13,16 @@ app = FastAPI(
     version="1.0.0",
     description="API for vocabulary practice and learning"
 )
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(words.router, prefix="/api", tags=["words"])
 
