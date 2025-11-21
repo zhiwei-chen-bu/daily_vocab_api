@@ -42,3 +42,14 @@ class HistoryItem(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ValidateSentenceRequest(BaseModel):
+    word_id: int
+    sentence: str
+
+
+class ValidateSentenceResponse(BaseModel):
+    score: int
+    level: str
+    suggestion: str
+    corrected_sentence: str
